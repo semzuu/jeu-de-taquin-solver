@@ -8,6 +8,12 @@ class Taquin:
         self.data = [0]*self.rows*self.cols if data is None else data
         self.empty = self.data.index(0)
 
+    def __repr__(self):
+        return str(self.data)
+
+    def __hash__(self):
+        return hash(tuple(self.data))
+
     def randomize(self) -> None:
         '''
         Randomizes the board
@@ -62,7 +68,20 @@ class Taquin:
         '''
         Compare the board to another given board
         '''
+        for i in range(len(self.data)):
+            if self.data[i] != TaquinB.data[i]:
+                return False
         return True
+
+    def mcompare(self, Taquins: list('Taquin')) -> bool:
+        '''
+        Compare the board to a list of boards
+        '''
+        found = False
+        for taquin in Taquins:
+            if self.compare(taquin):
+                found = True
+        return found
 
     def show(self) -> None:
         '''
@@ -70,11 +89,11 @@ class Taquin:
         '''
         print('='*8)
         for y in range(self.rows):
-            print(' ------\n|', end='')
+            print('-'+('-'*self.cols*2)+' \n|', end='')
             for x in range(self.cols):
                 print(self.data[y*self.cols+x], end='|')
             print()
-        print(' ------')
+        print('-'+('-'*self.cols*2))
         print('='*8)
 
     def check(self) -> bool:
