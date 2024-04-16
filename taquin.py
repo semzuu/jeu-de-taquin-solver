@@ -83,11 +83,10 @@ class Taquin:
                 found = True
         return found
 
-    def show(self) -> None:
+    def print(self) -> None:
         '''
-        Shows the board on screen
+        Prints the board
         '''
-        print('='*8)
         for y in range(self.rows):
             print('-'+('-'*self.cols*2)+' \n|', end='')
             for x in range(self.cols):
@@ -95,17 +94,6 @@ class Taquin:
             print()
         print('-'+('-'*self.cols*2))
         print('='*8)
-
-    def check(self) -> bool:
-        '''
-        Checks if the current board has reached the final state
-        '''
-        for y in range(self.rows):
-            for x in range(self.cols):
-                pos = y*self.rows+x
-                if self.final[pos] != self.data[pos]:
-                    return False
-        return True
 
     def transitions(self) -> list:
         '''
