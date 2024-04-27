@@ -3,9 +3,8 @@ import random
 
 class Taquin:
     def __init__(self, data=None, num=3) -> None:
-        self.rows = num
-        self.cols = num
-        self.data = [0]*self.rows*self.cols if data is None else data
+        self.num = num
+        self.data = [0]*self.num*self.num if data is None else data
         self.empty = self.data.index(0)
 
     def __repr__(self):
@@ -14,12 +13,20 @@ class Taquin:
     def __hash__(self):
         return hash(tuple(self.data))
 
+    def __sub__(self, other: 'Taquin'):
+        assert self.num == other.num, 'ERROR: Mismatched lengths'
+        diff = 0
+        for i in range(self.num*self.num):
+            if self.data[i] != other.data[i]:
+                diff += 1
+        return diff
+
     def randomize(self) -> None:
         '''
         Randomizes the board
         '''
-        choices = [i for i in range(self.rows*self.cols)]
-        for i in range(self.rows*self.cols):
+        choices = [i for i in range(self.num*self.num)]
+        for i in range(self.num*self.num):
             self.data[i] = random.choice(choices)
             choices.remove(self.data[i])
         self.empty = self.data.index(0)
@@ -28,14 +35,14 @@ class Taquin:
         '''
         Returns a copy of the board
         '''
-        return Taquin(data=self.data.copy(), num=self.rows)
+        return Taquin(data=self.data.copy(), num=self.num)
 
     def swap(self, posX: int, posY: int) -> None:
         '''
         Swaps the empty case with pos,
         if impossible, nothing will change
         '''
-        pos = posY*self.cols+posX
+        pos = posY*self.num+posX
         if self._neighbor(self.empty, pos):
             self.data[pos], self.data[self.empty] = self.data[self.empty], self.data[pos]
             self.empty = self.data.index(0)
@@ -44,7 +51,7 @@ class Taquin:
         '''
         Returns a list of possible moves
         '''
-        (emptyX, emptyY) = (self.empty % self.rows, self.empty // self.rows)
+        (emptyX, emptyY) = (self.empty % self.num, self.empty // self.num)
         moves = list()
         possible_moves = [
                 (emptyX - 1, emptyY),  # left
@@ -54,7 +61,7 @@ class Taquin:
                 ]
         for move in possible_moves:
             posX, posY = move
-            if (0 <= posX <= self.cols-1) and (0 <= posY <= self.rows-1):
+            if (0 <= posX <= self.num-1) and (0 <= posY <= self.num-1):
                 moves.append(move)
         return moves
 
@@ -62,7 +69,7 @@ class Taquin:
         '''
         Checks if pos1 is neighbouring pos2
         '''
-        return pos1 == pos2+1 or pos1 == pos2-1 or pos1 == pos2+self.rows or pos1 == pos2-self.rows
+        return pos1 == pos2+1 or pos1 == pos2-1 or pos1 == pos2+self.num or pos1 == pos2-self.num
 
     def compare(self, TaquinB: 'Taquin') -> bool:
         '''
@@ -87,13 +94,21 @@ class Taquin:
         '''
         Prints the board
         '''
-        for y in range(self.rows):
-            print('-'+('-'*self.cols*2)+' \n|', end='')
-            for x in range(self.cols):
-                print(self.data[y*self.cols+x], end='|')
+        for y in range(self.num):
+            print('-'+('-'*self.num*2)+' \n|', end='')
+            for x in range(self.num):
+                print(self.data[y*self.num+x], end='|')
             print()
-        print('-'+('-'*self.cols*2))
+        print('-'+('-'*self.num*2))
         print('='*8)
+
+    def show(self, gui) -> None:
+        '''
+        Shows the board using tkinter
+        '''
+        for y in range(self.num):
+            for x in range(self.num):
+                gui.tiles[y*self.num+x].set(f'{self.data[y*self.num+x]}')
 
     def transitions(self) -> list:
         '''
