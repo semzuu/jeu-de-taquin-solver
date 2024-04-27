@@ -10,12 +10,12 @@ def hex_to_rgb(hex):
 
 
 PALETTE = {
-        'background': hex_to_rgb('#4b6584'),
-        'tiles': hex_to_rgb('#26de81'),
-        'finished': hex_to_rgb('#eb3b5a'),
-        'loading': hex_to_rgb('#a5b1c2'),
-        'text': hex_to_rgb('#d1d8e0'),
-        'button': hex_to_rgb('#20bf6b')
+        'background': hex_to_rgb('#222831'),
+        'tiles': hex_to_rgb('#00ADB5'),
+        'finished': hex_to_rgb('#008DDA'),
+        'loading': hex_to_rgb('#393E46'),
+        'text': hex_to_rgb('#EEEEEE'),
+        'button': hex_to_rgb('#00ADB5')
         }
 
 
@@ -31,7 +31,7 @@ def main():
                 8, 0, 4,
                 7, 6, 5
             ]
-    start = examples[0]
+    start = examples[1]
     num = 3
     assert len(final) == num**2, 'ERROR: Mismatched lengths'
     assert len(start) == num**2, 'ERROR: Mismatched lengths'
