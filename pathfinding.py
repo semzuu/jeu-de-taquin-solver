@@ -22,6 +22,7 @@ def Astar(FState: Taquin, LState: Taquin) -> list:
                 Nvisited.append((state, f, g))
                 parents[state] = currentState
         visited.append(currentState)
+        Nvisited.sort(key=lambda x: x[1])
         (currentState, f, g) = Nvisited.pop(0)
         stateCount += 1
         level = g + 1

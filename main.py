@@ -31,7 +31,7 @@ def main():
                 8, 0, 4,
                 7, 6, 5
             ]
-    start = examples[1]
+    start = examples[0]
     num = 3
     assert len(final) == num**2, 'ERROR: Mismatched lengths'
     assert len(start) == num**2, 'ERROR: Mismatched lengths'
